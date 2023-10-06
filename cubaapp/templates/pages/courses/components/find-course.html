@@ -1,0 +1,54 @@
+{% load static %}
+{% load sass_tags %}<div class="col-xl-3 xl-40">
+  <div class="default-according style-1 faq-accordion job-accordion" id="accordionoc">
+    <div class="row">
+      
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseicon1"
+                aria-expanded="true" aria-controls="collapseicon1">Categories</button>
+            </h5>
+          </div>
+          <div class="collapse show" id="collapseicon1" aria-labelledby="collapseicon1" data-bs-parent="#accordion">
+            <div class="categories">
+              <ul>
+                {% for tag in all_tags %}
+                <li><a href="#">{{ tag.name }} </a><span class="badge badge-primary pull-right">{{ tag.num_formations }}</span>
+                </li>
+                
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#collapseicon2"
+                aria-expanded="true" aria-controls="collapseicon2">Upcoming
+                Courses</button>
+            </h5>
+          </div>
+          <div class="collapse show" id="collapseicon2" aria-labelledby="collapseicon2" data-bs-parent="#accordion">
+            <div class="upcoming-course card-body">
+              {% for formation in upcoming_formations %}
+              <div class="media">
+                <div class="media-body"><span class="f-w-600">{{ formation.title }}</span><span class="d-block">Course By <a href="#">
+                  {{ formation.formateur.user.username }}</a></span><span class="d-block"></span>
+                </div>
+                <div>
+                  <h5 class="mb-0 font-primary">{{ formation.date|date:"d" }}</h5><span class="d-block">{{ formation.date|date:"M" }}</span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,162 @@
+{% load static %}
+{% load sass_tags %}
+
+<div class="col-xl-12 col-md-12 box-md-12 ">
+  <div class="email-right-aside">
+    <div class="email-body radius-left">
+      <div class="ps-0">
+        <div class="tab-content">
+          {% for chapiter in formation.chapiter_set.all %}
+
+          <div class="tab-pane fade {% if forloop.first %}show active{% endif %} " id="chap{{ chapiter.id }}" role="tabpanel"
+            aria-labelledby="chap{{ chapiter.id }}-tab">
+            <div class="email-content">
+              <div class="email-top">
+                <div class="row">
+                  <div class="col-md-6 xl-100 col-sm-12">
+                    <div class="media"><img class="me-3 rounded-circle" src="{% static 'assets/images/user/user.png'%}"
+                        alt="">
+                      <div class="media-body">
+                        <h6>{{formation.formateur.user.username}} </h6>
+                        <p>{{formation.formateur.job}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12 xl-100">
+                    <div class="float-end d-flex">
+                      <p class="user-emailid">{{formation.formateur.email}}</p><i
+                        class="fa fa-star-o f-18 mt-1"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="email-wrapper">
+                <h5>{{chapiter.title}}</h5>
+                <p class="m-b-20">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non diam facilisis,
+                  commodo libero et, commodo sapien. Pellentesque sollicitudin massa sagittis dolor facilisis, sit amet
+                  vulputate nunc molestie. Pellentesque maximus nibh id luctus porta. Ut consectetur dui nec nulla
+                  mattis luctus. Donec nisi diam, congue vitae felis at, ullamcorper bibendum tortor. Vestibulum
+                  pellentesque felis felis. Etiam ac tortor felis. Ut elit arcu, rhoncus in laoreet vel, gravida sed
+                  tortor.</p>
+                <p>In elementum varius nisi vel tempus. Donec eleifend egestas viverra. Donec dapibus sollicitudin
+                  blandit. Donec scelerisque purus sit amet feugiat efficitur. Quisque feugiat semper sapien vel
+                  hendrerit. Mauris lacus felis, consequat nec pellentesque viverra, venenatis a lorem. Sed urna</p>
+                  <ul class="nav main-menu" role="tablist" style="display: flex; justify-content: flex-end; margin: 0 8px 8px 0;">
+                    <li class="nav-item">
+                       {% if chapiter.id in chapiter_scores %} 
+                <a id="chap{{ chapiter.id }}-quiz-tab" 
+                href="{% url 'quiz' formation.id chapiter.id %}" class="purchase-btn btn btn-primary btn-hover-effect f-w-500 ">View Result</a>
+            {% else %}
+            <a id="chap{{ chapiter.id }}-quiz-tab" 
+            href="{% url 'quiz' formation.id chapiter.id %}" class="purchase-btn btn btn-primary btn-hover-effect f-w-500 ">Start Quiz</a>
+            {% endif %}
+                  </li></ul>
+                <hr>
+                <div class="d-inline-block">
+                  <h6 class="text-muted"><i class="icofont icofont-clip"></i> ATTACHMENTS</h6>
+                  
+                  <div class="clearfix"></div>
+                </div>
+                <div class="attachment file-content">
+                  <ul class="list-inline folder">
+                    <li class="folder-box" style="width: auto;">
+                      <div class="media"><i class="fa fa-file-text-o txt-info" style="font-size: 30px;"></i>
+                        <div class="media-body ms-3">
+                          <a href="{{ chapiter.file.url }}" target="_blank"><h6>{{ chapiter.file.name }}</h6> </a>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="col-xl-3 call-chat-body">
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="row chat-box">
+        <!-- Chat right side start-->
+        <div class="col pe-0 chat-right-aside">
+          <!-- chat start-->
+          <div class="chat">
+            <!-- chat-header start-->
+            <div class="chat-header clearfix"><img class="rounded-circle" src="{% static 'assets/images/user/user.png'%}"
+                alt="">
+              <div class="about">
+                <div class="name">Instructor</div>
+                <div class="status">Last Seen 3:55 PM</div>
+              </div>
+              <ul class="list-inline float-start float-sm-end chat-menu-icons">
+                <li class="list-inline-item"><a href="#"><i class="icon-search"></i></a></li>
+                <li class="list-inline-item"><a href="#"><i class="icon-video-camera"></i></a></li>
+                <li class="list-inline-item toogle-bar"><a href="#"><i class="icon-menu"></i></a></li>
+              </ul>
+            </div>
+            <!-- chat-header end-->
+            <div class="chat-history chat-msg-box custom-scrollbar">
+              <ul>
+                <li>
+                  <div class="message my-message"><img class="rounded-circle float-start chat-user-img img-30"
+                      src="{% static 'assets/images/user/user.png'%}" alt="">
+                    <div class="message-data text-end"></div> I have results to show you.
+                  </div>
+                </li>
+                <li class="clearfix">
+                  <div class="message other-message pull-right"><img
+                      class="rounded-circle float-end chat-user-img img-30"
+                      src="{% static 'assets/images/user/user.png'%}" alt="">
+                    <div class="message-data"></div> Well I am not sure.
+                  </div>
+                </li>
+                <li class="clearfix">
+                  <div class="message other-message pull-right"><img
+                      class="rounded-circle float-end chat-user-img img-30"
+                      src="{% static 'assets/images/user/user.png'%}" alt="">
+                    <div class="message-data"></div> Well I am not sure.
+                  </div>
+                </li>
+                <li>
+                  <div class="message my-message mb-0"><img class="rounded-circle float-start chat-user-img img-30"
+                      src="{% static 'assets/images/user/user.png'%}" alt="">
+                    <div class="message-data text-end"></div> Actually
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <!-- end chat-history-->
+            <div class="chat-message clearfix">
+              <div class="row">
+                <div class="col-xl-12 d-flex">
+                  
+                  <div class="input-group text-box">
+                    <input class="form-control input-txt-bx" id="message-to-send" type="text" name="message-to-send"
+                      placeholder="Type a message......">
+                    <button class="input-group-text btn btn-primary" type="button">SEND</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end chat-message-->
+            <!-- chat end-->
+            <!-- Chat right side ends-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

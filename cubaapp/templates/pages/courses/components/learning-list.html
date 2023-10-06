@@ -1,0 +1,24 @@
+{% load static %}
+{% load sass_tags %}
+
+
+{% for formation in formations %}
+<div class="col-xl-4 xl-50 col-sm-6 box-col-6">
+  <div class="card">
+    <div class="blog-box blog-grid text-center product-box">
+      <div class="product-img"><img class="img-fluid top-radius-blog" style="height: 300px;" src="{{ formation.image.url }}"
+          alt="">
+           
+      </div>
+      <div class="blog-details-main">
+        <ul class="blog-social">
+          <li>{{ formation.date }}</li>
+          <li>by: {{ formation.formateur.user.username }}</li>
+        </ul>
+        <hr>
+        <a href="{% url 'email_application' formation.id %}"><h6 class="blog-bottom-details">{{ formation.title }}</h6></a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}

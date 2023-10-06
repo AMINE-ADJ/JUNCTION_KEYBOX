@@ -1,0 +1,89 @@
+{% load static %}
+{% load sass_tags %}
+<div class="email-wrap">
+    <div class="row">
+<div class=" box-col-12">
+    <div class="email-right-aside">
+      <div class="card email-body">
+        <div class="row">
+<div class="col-xl-12 col-md-12 box-md-12 ">
+  <div class="email-right-aside">
+    <div class="email-body radius-left">
+      <div class="ps-0">
+        <div class="tab-content">
+          
+
+
+          <div class="tab-pane fade show active" id="chap{{ chapiter.id }}-quiz" role="tabpanel"
+            aria-labelledby="chap{{ chapiter.id }}-quiz-tab">
+            <div class="email-content">
+              <div class="email-top">
+                <div class="row">
+                  <div class="col-md-6 xl-100 col-sm-12">
+                    <div class="media"><img class="me-3 rounded-circle" src="{% static 'assets/images/user/user.png'%}"
+                        alt="">
+                      <div class="media-body">
+                        <h6>{{formation.formateur.user.username}} </h6>
+                        <p>{{formation.formateur.job}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-sm-12 xl-100">
+                    <div class="float-end d-flex">
+                      <p class="user-emailid">{{formation.formateur.email}}</p><i
+                        class="fa fa-star-o f-18 mt-1"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="email-wrapper">
+                <div class="card-body">
+                  <form class="form-wizard" id="regForm" action="#" method="POST"> {% csrf_token %}
+                    {% csrf_token %}
+                    {% for question in chapiter.question_set.all %}
+                    <div class="tab">
+                      <h5>{{ question.question_text }}</h5>
+                      <div class="card-body animate-chk">
+                        <div class="row">
+                            <div class="col">
+                                {% for choice in question.reponseoption_set.all %}
+                                    <label class="d-block" for="edo-ani{{ forloop.parentloop.counter }}-{{ forloop.counter }}-{{ chapiter.id }}">
+                                        <input class="radio_animated" id="edo-ani{{ forloop.parentloop.counter }}-{{ forloop.counter }}-{{ chapiter.id }}"
+                                            type="radio" name="rdo-ani{{question.id}}-{{ chapiter.id }}" value="{{ choice.id }}" required>
+                                        {{ choice.reponse_text }}
+                                    </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                {% endfor %}
+                    </div>
+                    <div>
+                      <div class="text-end btn-mb">
+                        <button class="btn btn-secondary" id="prevBtn" type="button" onclick="nextPrev(-1)">Previous</button>
+                        <button class="btn btn-primary" id="nextBtn" type="button" onclick="nextPrev(1)">Next</button>
+                      </div>
+                    </div>
+                    <!-- Circles which indicates the steps of the form:-->
+                    <div class="text-center"><span class="step"></span><span class="step"></span><span class="step"></span><span
+                        class="step"></span></div>
+                    <!-- Circles which indicates the steps of the form:-->
+                    <!-- Container-fluid Ends-->
+                  </form>
+                </div>
+                
+               
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

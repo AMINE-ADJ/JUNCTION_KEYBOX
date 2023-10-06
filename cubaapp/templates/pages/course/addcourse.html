@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load sass_tags %}
+
+{% block css %}
+<!-- Plugins css start-->
+<link rel="stylesheet" type="text/css" href="{% sass_src 'assets/scss/vendors/date-picker.scss' %}">
+<link rel="stylesheet" type="text/css" href="{% sass_src 'assets/scss/vendors/select2.scss' %}">
+
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body" style="padding-top: 30px;">
+      <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+              <h5>Add course</h5>
+            </div>
+            <div class="card-body">
+              <form class="needs-validation" action="#" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="" style="margin: 8px 0;">
+                    <label class="form-label" for="validationCustom03">Title</label>
+                    <input class="form-control" name="title" id="validationCustom03" type="text" placeholder="Title" required="">
+                    <div class="invalid-feedback">Please provide a valid Title.</div>
+                  </div>
+                  <div  style="margin: 8px 0;">
+                    <label class="form-label" for="validationCustom01">File</label>
+
+                    <input class="form-control" name="file" id="validationCustom01" type="file" aria-label="file example" required="">
+                    <div class="invalid-feedback">Example invalid form file feedback</div>
+                  </div>
+                  <div class=""  style="margin: 16px 0 8px;">
+                    <div class="input-group">
+
+                      <input class="datepicker-here form-control digits" name="date" type="text" placeholder="date" data-language="en" required="" data-bs-original-title="" title="">
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <div class="col-form-label">Default Placeholder</div>
+                    <select class="js-example-placeholder-multiple col-sm-12" name="tags" multiple="multiple">
+                        {% for tag in tags%}
+                      <option value="{{tag.id}}">{{tag.name}}</option>
+                      {% endfor%}
+                    </select>
+                  </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" id="validationFormCheck1" name="kids" type="checkbox" >
+                  <label class="form-check-label" for="validationFormCheck1">is for Kids</label>
+                  <div class="invalid-feedback">Example invalid feedback text</div>
+                </div>
+                <div class="text-end mt-2">
+                    <button class="btn btn-primary js-programmatic-enable p-2 mt-2" type="submit">Submit</button>
+                </div>
+                
+                
+              </form>
+            </div>
+          </div>
+
+      </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{% static 'assets/js/form-validation-custom.js'%}"></script>
+<script src="{% static 'assets/js/tooltip-init.js'%}"></script>
+<script src="{% static 'assets/js/datepicker/date-picker/datepicker.js'%}"></script>
+<script src="{% static 'assets/js/datepicker/date-picker/datepicker.en.js'%}"></script>
+<script src="{% static 'assets/js/datepicker/date-picker/datepicker.custom.js'%}"></script>
+<script src="{% static 'assets/js/tooltip-init.js'%}"></script>
+<script src="{% static 'assets/js/select2/select2.full.min.js'%}"></script>
+<script src="{% static 'assets/js/select2/select2-custom.js'%}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}
