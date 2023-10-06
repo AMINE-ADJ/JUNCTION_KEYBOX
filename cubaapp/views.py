@@ -268,6 +268,13 @@ def index(request):
     context = {}
     return render(request,"pages/default/index.html",context)
 
+
+@login_required(login_url="/login_home")
+def indexl(request):
+    context = {}
+    redirect('index')
+
+
 @login_required(login_url="/login_home")
 def courseanalyse(request):
     context = {}
