@@ -20,7 +20,7 @@ import os
 import sys
 from django.http import JsonResponse
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 def calculate_and_save_quiz_result(etudiant, chapiter):
     # Get all questions for the chapiter
@@ -402,7 +402,7 @@ def details(request,id):
 
         # Close the PDF document
         pdf_document.close()
-        openai.api_key = "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"
+        openai.api_key = "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"
         #context = ""  # Ajouter le contenu de cette partie
         result = openai.ChatCompletion.create(model="gpt-3.5-turbo",
             messages=[{"role":"user","content": "Generate for us a high quality SCQ with maximum of questions in json form (question, responses, correct_resp_index). The MCQ language must be the same as the content language. content :{} ".format(context)}])
