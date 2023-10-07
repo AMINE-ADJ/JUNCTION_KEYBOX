@@ -126,7 +126,7 @@ def quiz(request,id,chapiter):
                 )
 
         calculate_and_save_quiz_result(etudiant, chapiter)
-        return redirect('email_application',id=chapiter.id) 
+        return redirect('email_application',id=chapiter.formation.id) 
     formation = get_object_or_404(Formation, id=id)
     chapiter = get_object_or_404(Chapiter,id=chapiter)
     context = {
