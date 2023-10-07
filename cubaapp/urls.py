@@ -21,4 +21,8 @@ path('course/analyse/', views.courseanalyse, name="courseanalyse"),
 path('signup_home',views.signup_home,name='signup_home'),
 path('login_home', views.login_home, name="login_home"),
 path('logout_view', views.logout_view, name="logout_view"),
+
+
+# path('chat/data/', views.get_data, name='get_data'),
+path('chat/send/', views.send_message, name='send_message'),
 ]

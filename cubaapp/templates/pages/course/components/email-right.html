@@ -107,35 +107,71 @@
             </div>
             <!-- chat-header end-->
             <div class="chat-history chat-msg-box custom-scrollbar">
-              <ul>
-                <li>
-                  <div class="message my-message"><img class="rounded-circle float-start chat-user-img img-30"
-                      src="{% static 'assets/images/user/user.png'%}" alt="">
-                    <div class="message-data text-end"></div> I have results to show you.
-                  </div>
-                </li>
-                <li class="clearfix">
-                  <div class="message other-message pull-right"><img
-                      class="rounded-circle float-end chat-user-img img-30"
-                      src="{% static 'assets/images/user/user.png'%}" alt="">
-                    <div class="message-data"></div> Well I am not sure.
-                  </div>
-                </li>
-                <li class="clearfix">
-                  <div class="message other-message pull-right"><img
-                      class="rounded-circle float-end chat-user-img img-30"
-                      src="{% static 'assets/images/user/user.png'%}" alt="">
-                    <div class="message-data"></div> Well I am not sure.
-                  </div>
-                </li>
-                <li>
-                  <div class="message my-message mb-0"><img class="rounded-circle float-start chat-user-img img-30"
-                      src="{% static 'assets/images/user/user.png'%}" alt="">
-                    <div class="message-data text-end"></div> Actually
-                  </div>
-                </li>
-              </ul>
-            </div>
+              <ul class="messages" id="messages">
+                  <script>
+
+                  function addMessagesToChatbox(messages) {
+                          var messagesList = document.getElementById('messages');
+                          messagesList.innerHTML = ''; // Clear previous messages
+
+                          messages.forEach(function (message, index) {
+                          var li = document.createElement('li');
+                          var messageDiv = document.createElement('div');
+                          var messageDataDiv = document.createElement('div');
+                          var img = document.createElement('img');
+
+                          img.classList.add('rounded-circle', 'float-' + (index % 2 === 0 ? 'start' : 'end'), 'chat-user-img', 'img-30');
+                          img.src = "{% static 'assets/images/user/user.png'%}";
+                          img.alt = "";
+                            
+                          messageDiv.innerText = message;
+                          messageDiv.classList.add('message', index % 2 === 0 ? 'my-message' : 'other-message');
+                          messageDiv.appendChild(img);
+
+                          messageDataDiv.classList.add('message-data');
+                          if (index % 2 !== 0) {
+                              messageDataDiv.classList.add('pull-right');
+                          }
+
+                          messageDiv.appendChild(messageDataDiv);
+                          li.appendChild(messageDiv);
+
+                          if (index % 2 === 0) {
+                              li.classList.add('clearfix');
+                          }
+
+                          messagesList.appendChild(li);
+                      });
+                  }
+  // Example array of messages
+  var messagesArray = [ // pair => other-message, impair=> my-message
+                  'Hello, welcome to the chatbox!',
+                  // 'Feel free to drag me around.',
+                  // 'This is another message in the chatbox.',
+                  // 'You can populate messages dynamically from an array.',
+                  // 'You can populate messages dynamically from an array.'
+              ];
+
+// fetch('/chat/data/')
+//     .then(response => response.json())
+//     .then(data => {
+//         // Assuming the result is a string
+//         let resultString = data.data;
+//         // Convert the string to a JavaScript array (if applicable)
+//         // let resultArray = resultString.split(' '); // Example: Split string by space
+//         // Now, you have the result in a JavaScript array (resultArray)
+//         console.log(resultString);
+//         messagesArray.push(resultString)
+//         
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//     });
+            
+                        // Populate messages from the array
+                        addMessagesToChatbox(messagesArray);
+
+                  </script>
             <!-- end chat-history-->
             <div class="chat-message clearfix">
               <div class="row">
@@ -144,7 +180,60 @@
                   <div class="input-group text-box">
                     <input class="form-control input-txt-bx" id="message-to-send" type="text" name="message-to-send"
                       placeholder="Type a message......">
-                    <button class="input-group-text btn btn-primary" type="button">SEND</button>
+                      <script>
+
+                        function getCookie(name) {
+                          var cookieValue = null;
+                          if (document.cookie && document.cookie !== '') {
+                              var cookies = document.cookie.split(';');
+                              for (var i = 0; i < cookies.length; i++) {
+                                  var cookie = cookies[i].trim();
+                                  // Does this cookie string begin with the name we want?
+                                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                      break;
+                                  }
+                              }
+                          }
+                          return cookieValue;
+                      }
+
+                        function sendMessage() {
+                        var userInput = document.getElementById('message-to-send').value;
+                        console.log(userInput)
+                        messagesArray.push(userInput)
+                        if (userInput.trim() !== "") {
+                          const csrftoken = getCookie('csrftoken');
+                            // Send user input to the server using a POST request
+                            fetch('/chat/send/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRFToken': csrftoken
+                                },
+                                body: JSON.stringify({
+                                    message: userInput
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                // Assuming the result is a string
+                                let resultString = data.data;
+                                // Append the received message to the chatbox
+                                messagesArray.push(resultString);
+                                addMessagesToChatbox(messagesArray);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
+
+                            // Clear the user input field after sending the message
+                            document.getElementById('message-to-send').value = '';
+                        }
+                    }
+
+                      </script>
+                    <button class="input-group-text btn btn-primary" onclick="sendMessage()" type="button">SEND</button>
                   </div>
                 </div>
               </div>
@@ -159,4 +248,6 @@
   </div>
 </div>
 </div>
+
 </div>
+

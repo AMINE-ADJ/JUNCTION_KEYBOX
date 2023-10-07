@@ -12,6 +12,15 @@ from django.db.models import Count
 from .models import *
 from django.db.models.functions import Now
 from datetime import datetime  # Import the datetime module
+
+from django.http import JsonResponse
+
+
+import openai
+
+
+openai.api_key = "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"
+
 # Create your views here.
 
 
@@ -280,3 +289,38 @@ def courseanalyse(request):
     context = {}
     return render(request,"pages/user-cards/user-cards.html",context)
     
+
+# def get_data(request):
+#     # Your Python code logic here
+#     # result_string = "Hello from Python!"
+#     chapitre = "La programmation est donc l’art de commander à un ordinateur de faire exactement ce que vous voulez, et Python compte pa    rmi les langages qu’il est capable de comprendre pour recevoir vos ordres. Nous allons essayer cela tout de suite avec des ordres très si    mples concernant des nombres, puisque les nombres constituent son matériau de prédilection. Nous allons lui fournir nos premières « instr    uctions », et préciser au passage la définition de quelques termes essentiels du vocabulaire informatique, que vous rencontrerez constamm    ent dans la suite de cet ouvrage.Comme nous l’avons expliqué dans la préface (voir : Versions du langage, page XII), nous avons pris le p    arti d’utiliser dans ce cours la nouvelle version 3 de Python, laquelle a introduit quelques changements syntaxiques par rapport aux vers    ions précédentes. Dans la mesure du possible, nous vous indiquerons ces différences dans le texte, afin que vous puissiez sans problème a    nalyser ou utiliser d’anciens programmes écrits pour Python 1 ou 2"
+#     result_string = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+#      messages=[{"role":"user","content": " pour ce chapitre : {}  c'est quoi la nouvelle version du python ".format(chapitre)}]) 
+#     print(result_string.choices[0].message.content)
+
+#     # Return the result as JSON
+#     return JsonResponse({'data': result_string.choices[0].message.content})
+
+
+# from django.http import JsonResponse
+
+
+
+
+import json
+def send_message(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        user_message = data.get('message', '')
+        #here you load chapitre, extractih text nd send it here.
+        chapitre = "La programmation est donc l’art de commander à un ordinateur de faire exactement ce que vous voulez, et Python compte pa    rmi les langages qu’il est capable de comprendre pour recevoir vos ordres. Nous allons essayer cela tout de suite avec des ordres très si    mples concernant des nombres, puisque les nombres constituent son matériau de prédilection. Nous allons lui fournir nos premières « instr    uctions », et préciser au passage la définition de quelques termes essentiels du vocabulaire informatique, que vous rencontrerez constamm    ent dans la suite de cet ouvrage.Comme nous l’avons expliqué dans la préface (voir : Versions du langage, page XII), nous avons pris le p    arti d’utiliser dans ce cours la nouvelle version 3 de Python, laquelle a introduit quelques changements syntaxiques par rapport aux vers    ions précédentes. Dans la mesure du possible, nous vous indiquerons ces différences dans le texte, afin que vous puissiez sans problème a    nalyser ou utiliser d’anciens programmes écrits pour Python 1 ou 2"
+        question = user_message
+        result_string = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+        messages=[{"role":"user","content": "#context:chapitre : {}, answer this question {}".format(chapitre, question)}]) 
+        print(result_string.choices[0].message.content)
+
+        # Return the result as JSON
+        return JsonResponse({'data': result_string.choices[0].message.content})
+    else:
+        return JsonResponse({'data': 'Invalid request method'})
