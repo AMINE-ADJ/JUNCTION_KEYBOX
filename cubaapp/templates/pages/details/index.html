@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load sass_tags %}
+
+{% block css %}
+<!-- Plugins css start-->
+<!-- Plugins css Ends-->
+{% endblock %}
+
+{% block content %}
+
+<div class="page-body">
+    <div class="container-fluid" style="padding-top: 32px;">
+
+        {% include "pages/details/components/email-left.html" %}
+        {% include "pages/details/components/email-right.html" %}
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scriptcontent %}
+<!-- Plugins JS start-->
+<script src="{% static 'assets/js/editor/ckeditor/ckeditor.js'%}"></script>
+<script src="{% static 'assets/js/editor/ckeditor/adapters/jquery.js'%}"></script>
+<script src="{% static 'assets/js/email-app.js'%}"></script>
+<script src="{% static 'assets/js/form-wizard/form-wizard.js'%}"></script>
+<script src="{% static 'assets/js/tooltip-init.js'%}"></script>
+<!-- Plugins JS Ends-->
+{% endblock %}

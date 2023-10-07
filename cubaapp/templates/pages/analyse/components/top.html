@@ -1,0 +1,103 @@
+{% load static %}
+<div class="row size-column">
+  <div class=" col-md-12 box-col-8 grid-ed-12">
+    <div class="row">
+      <div class="col-xxl-3 col-md-6 box-col-6">
+        <div class="row"> 
+          <div class="col-12"> 
+            <div class="card small-widget"> 
+              <div class="card-body primary"> <span class="f-light">New Orders</span>
+                <div class="d-flex align-items-end gap-1">
+                  <h4>16</h4><span class="font-primary f-12 f-w-500"><i class="icon-arrow-up"></i><span>+50%</span></span>
+                </div>
+                <div class="bg-gradient"> 
+                  <svg class="stroke-icon svg-fill">
+                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#new-order"></use>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12"> 
+            <div class="card small-widget"> 
+              <div class="card-body warning"><span class="f-light">Number of Students</span>
+                <div class="d-flex align-items-end gap-1">
+                  <h4>63</h4><span class="font-warning f-12 f-w-500"><i class="icon-arrow-up"></i><span>+20%</span></span>
+                </div>
+                <div class="bg-gradient"> 
+                  <svg class="stroke-icon svg-fill">
+                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#customers"></use>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12"> 
+            <div class="card small-widget"> 
+              <div class="card-body secondary"><span class="f-light">Average Sale</span>
+                <div class="d-flex align-items-end gap-1">
+                  <h4>$200</h4><span class="font-secondary f-12 f-w-500"><i class="icon-arrow-down"></i><span>-10%</span></span>
+                </div>
+                <div class="bg-gradient"> 
+                  <svg class="stroke-icon svg-fill">
+                    <use href="{% static 'assets/svg/icon-sprite.svg'%}#sale"></use>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-md-6 box-col-6">
+        <div class="card"> 
+          <div class="card-header card-no-border"> 
+            <h5>Monthly Profits</h5><span class="f-light f-w-500 f-14">(Total profit growth of 30%)</span>
+          </div>
+          <div class="card-body pt-0"> 
+            <div class="monthly-profit">
+              <div id="profitmonthly"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+     
+      <div class="col-xxl-6 box-col-12">
+        <div class="card">
+          <div class="card-header card-no-border"> 
+            <h5>Order Overview</h5>
+          </div>
+          <div class="card-body pt-0">
+            <div class="row m-0 overall-card overview-card">
+              <div class=" col-md-12  p-0 box-col-12">                                                                                                                                     
+                <div class="chart-right">
+                  <div class="row">
+                    <div class="col-xl-12">
+                      <div class="card-body p-0">
+                        <ul class="balance-data"> 
+                          <li><span class="circle bg-secondary"></span><span class="f-light ms-1">Succes</span></li>
+                          <li><span class="circle bg-success"> </span><span class="f-light ms-1">Fail</span></li>
+                        </ul>
+                        <div class="current-sale-container order-container">
+                          <div class="overview-wrapper" id="orderoverview"></div>
+                          <div class="back-bar-container"> 
+                            <div id="order-bar"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- bottom ends -->
+    
+   
+    </div>
+  </div>
+ 
+</div>

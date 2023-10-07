@@ -41,16 +41,7 @@
                 <p>In elementum varius nisi vel tempus. Donec eleifend egestas viverra. Donec dapibus sollicitudin
                   blandit. Donec scelerisque purus sit amet feugiat efficitur. Quisque feugiat semper sapien vel
                   hendrerit. Mauris lacus felis, consequat nec pellentesque viverra, venenatis a lorem. Sed urna</p>
-                  <ul class="nav main-menu" role="tablist" style="display: flex; justify-content: flex-end; margin: 0 8px 8px 0;">
-                    <li class="nav-item">
-                       {% if chapiter.id in chapiter_scores %} 
-                <a id="chap{{ chapiter.id }}-quiz-tab" 
-                href="{% url 'result' formation.id chapiter.id %}" class="purchase-btn btn btn-primary btn-hover-effect f-w-500 ">View Result</a>
-            {% else %}
-            <a id="chap{{ chapiter.id }}-quiz-tab" 
-            href="{% url 'quiz' formation.id chapiter.id %}" class="purchase-btn btn btn-primary btn-hover-effect f-w-500 ">Start Quiz</a>
-            {% endif %}
-                  </li></ul>
+                  
                 <hr>
                 <div class="d-inline-block">
                   <h6 class="text-muted"><i class="icofont icofont-clip"></i> ATTACHMENTS</h6>
@@ -84,7 +75,32 @@
 </div>
 </div>
 
-<div class="col-xl-3 call-chat-body">
+<div class="col-xl-6 ">
+  <div class="card">
+    <div class="card-body">
+      <form class="needs-validation" action="#" method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <div class="" style="margin: 8px 0;">
+            <label class="form-label" for="validationCustom03">Title</label>
+            <input class="form-control" name="title" id="validationCustom03" type="text" placeholder="Title" required="">
+            <div class="invalid-feedback">Please provide a valid Title.</div>
+          </div>
+          <div  style="margin: 8px 0;">
+            <label class="form-label" for="validationCustom01">File</label>
+
+            <input class="form-control" name="file" id="validationCustom01" type="file" aria-label="file example" required="">
+            <div class="invalid-feedback">Example invalid form file feedback</div>
+          </div>
+          
+        <div class="text-end mt-2">
+            <button class="btn btn-primary js-programmatic-enable p-2 mt-2" type="submit">Submit</button>
+        </div>
+        
+        
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-xl-6 call-chat-body">
   <div class="card">
     <div class="card-body p-0">
       <div class="row chat-box">
@@ -96,7 +112,7 @@
             <div class="chat-header clearfix"><img class="rounded-circle" src="{% static 'assets/images/user/user.png'%}"
                 alt="">
               <div class="about">
-                <div class="name">Instructor</div>
+                <div class="name">AI</div>
                 <div class="status">Last Seen 3:55 PM</div>
               </div>
               <ul class="list-inline float-start float-sm-end chat-menu-icons">

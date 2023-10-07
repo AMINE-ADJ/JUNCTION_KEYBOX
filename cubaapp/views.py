@@ -13,7 +13,11 @@ from .models import *
 from django.db.models.functions import Now
 from datetime import datetime  # Import the datetime module
 # Create your views here.
-
+import openai
+import json
+import fitz  
+import os
+import sys
 
 def calculate_and_save_quiz_result(etudiant, chapiter):
     # Get all questions for the chapiter
@@ -81,7 +85,7 @@ def mycourses(request):
         'formations': formations,
         'all_tags':all_tags,
     }   
-    return render(request,'pages/courses/index.html',context)
+    return render(request,'pages/courses/index2.html',context)
 @login_required(login_url="/login_home")
 def email_application(request,id):
     formation = get_object_or_404(Formation, id=id)
@@ -272,7 +276,7 @@ def index(request):
 @login_required(login_url="/login_home")
 def indexl(request):
     context = {}
-    redirect('index')
+    return redirect('index')
 
 
 @login_required(login_url="/login_home")
@@ -280,3 +284,99 @@ def courseanalyse(request):
     context = {}
     return render(request,"pages/user-cards/user-cards.html",context)
     
+@login_required(login_url="/login_home")
+def analyse(request,id):
+    tags = Chapiter.objects.filter(formation_id=id)
+    formation = Formation.objects.get(id=id)
+    context = {
+        'all_tags':tags,
+        'formation':formation
+    }
+    return render(request,"pages/analyse/index.html",context)
+    
+@login_required(login_url="/login_home")
+def details(request,id):
+    tags = Chapiter.objects.filter(formation_id=id)
+    formation = Formation.objects.get(id=id)
+
+    if request.method == 'POST':
+        # Get the data from the request
+        title = request.POST.get('title')
+        file = request.FILES.get('file')
+
+        # Create a new Chapiter instance and associate it with the Formation
+        chapiter = Chapiter(formation=formation, title=title, file=file,is_active=True)
+        chapiter.save()
+
+        pdf_file = os.getcwd()+"/media/"+str(chapiter.file)
+
+        # Create an "extracted" folder if it doesn't exist
+        output_folder = f"extracted\\{sys.argv[1]}"
+        os.makedirs(output_folder, exist_ok=True)
+
+        # Initialize a PDF document object
+        pdf_document = fitz.open(pdf_file)
+        metadata = pdf_document.metadata
+        file_name = metadata.get("Title", "Unknown")
+        # Create a text file to store the extracted text
+        text_filename = f"{file_name}_extracted_text.txt"
+        text_file = open(text_filename, "w", encoding="utf-8")
+
+        # Loop through each page in the PDF
+        for page_number in range(len(pdf_document)):
+            page = pdf_document[page_number]
+
+            # Get the images on the page as a list of image objects
+            images = page.get_images(full=True)
+
+            for img_index, img_info in enumerate(images):
+                xref = img_info[0]
+                base_image = pdf_document.extract_image(xref)
+                image_data = base_image["image"]
+
+                # Generate a filename with the page name and image number
+                image_filename = os.path.join(output_folder, f"page{page_number+1}_image{img_index+1}.jpg")
+                with open(image_filename, "wb") as img_file:
+                    img_file.write(image_data)
+
+            # Extract text from the page and write it to the text file
+            page_text = page.get_text("text")
+            text_file.write(page_text)
+            text_file.write("\n\n")  # Add some separation between pages
+
+            context = page_text
+        # Close the text file
+        text_file.close()
+
+        # Close the PDF document
+        pdf_document.close()
+        openai.api_key = "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"
+        #context = ""  # Ajouter le contenu de cette partie
+        result = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+            messages=[{"role":"user","content": "Generate for us a high quality SCQ with maximum of questions in json form (question, responses, correct_resp_index). The MCQ language must be the same as the content language. content :{} ".format(context)}])
+
+
+        input = json.loads(result.choices[0].message.content)
+        if type(input) != list:
+            input = input[list(input.keys())[0]]
+
+            #input contains the array of json
+
+        for entry in input:
+            question = entry['question']
+            ques = Question.objects.create(chapiter=chapiter,question_text=question,difficulty='medium')
+            responses = entry['responses']
+            correct_index = entry['correct_resp_index']
+
+            for i,rep in enumerate(responses):
+                option = ReponseOption.objects.create(question=ques,reponse_text=rep)
+                if i == correct_index:
+                    option.is_correct = True 
+                    option.save()
+
+
+    context = {
+        'all_tags':tags,
+        'formation':formation
+    }
+    return render(request,"pages/details/index.html",context)

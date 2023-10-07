@@ -46,13 +46,7 @@
             <svg class="fill-icon">
               <use href="{% static 'assets/svg/icon-sprite.svg'%}#fill-social"> </use>
             </svg><span>Analyses</span></a></li>
-            <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/courses/">
-              <svg class="stroke-icon">
-                <use href="{% static 'assets/svg/icon-sprite.svg'%}#stroke-calendar"></use>
-              </svg>
-              <svg class="fill-icon">
-                <use href="{% static 'assets/svg/icon-sprite.svg'%}#fill-calendar"> </use>
-              </svg><span>Courses</span></a></li>
+            
           <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/mycourses/">
               <svg class="stroke-icon">
                 <use href="{% static 'assets/svg/icon-sprite.svg'%}#stroke-contact"></use>
@@ -60,6 +54,13 @@
               <svg class="fill-icon">
                 <use href="{% static 'assets/svg/icon-sprite.svg'%}#fill-contact"> </use>
               </svg><span>Mes courses</span></a></li>
+              <li class="sidebar-list"><a class="sidebar-link sidebar-title link-nav" href="/add-course/">
+                <svg class="stroke-icon">
+                  <use href="{% static 'assets/svg/icon-sprite.svg'%}#stroke-editors"></use>
+                </svg>
+                <svg class="fill-icon">
+                  <use href="{% static 'assets/svg/icon-sprite.svg'%}#fill-editors"> </use>
+                </svg><span>Add Course</span></a></li>
           {% else %}
           <li class="sidebar-main-title">
             <div>
@@ -96,9 +97,7 @@
           </li>
           {% endif %}
           
-          
-        
-        </ul>
+          </ul>
       </div>
       <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
     </nav>
