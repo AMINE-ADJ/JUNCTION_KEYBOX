@@ -55,6 +55,7 @@ class Chapiter(models.Model):
     title = models.CharField(max_length=255)
     # Use either FileField for PDF/video uploads or URLField for external links
     file = models.FileField(upload_to='chapiter_files/')
+    text = models.TextField(default="")
     # Example of using a URLField for external links
     # video_link = models.URLField()
 

@@ -13,6 +13,8 @@ path('course/<int:id>/quiz/<int:chapiter>/', views.quiz, name="quiz"),
 path('add-course/', views.addcourse, name="addcourse"),
 path('mycourses/', views.mycourses, name="mycourses"),
 path('result/<int:id>/quiz/<int:chapiter>/', views.result, name="result"),
+path('results/<int:id>/quiz/<int:chapiter>/', views.results, name="results"),
+
 path('course/analyse/', views.courseanalyse, name="courseanalyse"),
 
 path('course/<int:id>/analyse/', views.analyse, name="analyse"),
@@ -22,6 +24,9 @@ path('signup_home',views.signup_home,name='signup_home'),
 path('login_home', views.login_home, name="login_home"),
 path('logout_view', views.logout_view, name="logout_view"),
 
-    
+path('user/<int:id>/', views.user, name="user"),
+
+path('chat/send/', views.send_message, name='send_message'),
+
    
 ]

@@ -18,6 +18,9 @@ import json
 import fitz  
 import os
 import sys
+from django.http import JsonResponse
+
+openai.api_key = "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"
 
 def calculate_and_save_quiz_result(etudiant, chapiter):
     # Get all questions for the chapiter
@@ -44,6 +47,24 @@ def calculate_and_save_quiz_result(etudiant, chapiter):
     return score
 
 
+import json
+def send_message(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print(data)
+        user_message = data.get('message', '')
+        #here you load chapitre, extractih text nd send it here.
+        chapitre = "La programmation est donc l’art de commander à un ordinateur de faire exactement ce que vous voulez, et Python compte pa    rmi les langages qu’il est capable de comprendre pour recevoir vos ordres. Nous allons essayer cela tout de suite avec des ordres très si    mples concernant des nombres, puisque les nombres constituent son matériau de prédilection. Nous allons lui fournir nos premières « instr    uctions », et préciser au passage la définition de quelques termes essentiels du vocabulaire informatique, que vous rencontrerez constamm    ent dans la suite de cet ouvrage.Comme nous l’avons expliqué dans la préface (voir : Versions du langage, page XII), nous avons pris le p    arti d’utiliser dans ce cours la nouvelle version 3 de Python, laquelle a introduit quelques changements syntaxiques par rapport aux vers    ions précédentes. Dans la mesure du possible, nous vous indiquerons ces différences dans le texte, afin que vous puissiez sans problème a    nalyser ou utiliser d’anciens programmes écrits pour Python 1 ou 2"
+        question = user_message
+        result_string = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+        messages=[{"role":"user","content": "#context:chapitre : {}, answer this question {}".format(chapitre, question)}]) 
+        print(result_string.choices[0].message.content)
+
+        # Return the result as JSON
+        return JsonResponse({'data': result_string.choices[0].message.content})
+    else:
+        return JsonResponse({'data': 'Invalid request method'})
+    
 @login_required(login_url="/login_home")
 def learning_list(request):
     formations = Formation.objects.all()
@@ -177,6 +198,21 @@ def result(request,id,chapiter):
     return render(request, "pages/course/index3.html", context)
 
 
+@login_required(login_url="/login_home")
+def results(request,id,chapiter):
+    formation = get_object_or_404(Formation, id=id)
+    chapiter = get_object_or_404(Chapiter, id=chapiter)
+
+    questions = chapiter.question_set.all()
+
+    context = {
+        'formation': formation,
+        'chapiter': chapiter,
+        'question_info': questions,
+    }
+
+    return render(request, "pages/details/index4.html", context)
+
 
 @login_required(login_url="/login_home")
 def addcourse(request):
@@ -293,7 +329,18 @@ def analyse(request,id):
         'formation':formation
     }
     return render(request,"pages/analyse/index.html",context)
-    
+
+
+def summarize(filepath):
+    with open(filepath, 'r', encoding='utf-8') as file:
+        text_content = file.read()
+        result = openai.ChatCompletion.create(model="gpt-3.5-turbo",
+        messages=[{"role":"user","content": " summarize this lesson. output language must be the same as input language. text input: : {} ".format(text_content)}])
+        # print(result.choices[0].message.content)
+
+    return result.choices[0].message.content  
+
+
 @login_required(login_url="/login_home")
 def details(request,id):
     tags = Chapiter.objects.filter(formation_id=id)
@@ -374,9 +421,18 @@ def details(request,id):
                     option.is_correct = True 
                     option.save()
 
+        chapiter.text = summarize(text_filename)
+        chapiter.save()
+
 
     context = {
         'all_tags':tags,
         'formation':formation
     }
     return render(request,"pages/details/index.html",context)
+
+
+@login_required(login_url="/login_home")
+def user(request,id):
+    context = { }
+    return render(request,"pages/social/social.html",context)
