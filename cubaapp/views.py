@@ -305,6 +305,11 @@ def signup_home(request):
 
 @login_required(login_url="/login_home")
 def index(request):
+    try:
+        etudiant = request.user.etudiant  
+        return redirect('learning_list')
+    except Etudiant.DoesNotExist:
+        pass
     context = {}
     return render(request,"pages/default/index.html",context)
 
